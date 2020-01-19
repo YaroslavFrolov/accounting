@@ -83,7 +83,7 @@ function createWSData(WSrows) {
 
   Object.values(countries).forEach(country=>{
     country.basis_for_VAT = (country.netSale / (country.rate + 100)) * 100;
-    country.tax = (country.netSale * country.rate) / 100; // @todo выяснить расчёт
+    country.tax = (country.netSale / (100 + country.rate)) * country.rate
     //@todo удаление минусов
   });
 

@@ -3,16 +3,24 @@ import { financial } from 'calculating/helpers.js';
 
 
 export let WSDeclaration = props => {
-  const { WSdata } = props;
+  const { WSdata, name } = props;
+
+  if(!Array.isArray(WSdata)) {
+    console.log(`WSDeclaration[${name}] - no data`);
+    return null;
+  }
+
   const data = WSdata || [];
 
-  data.sort(function(a, b){
-    if (a.type === 'EU') {
-      return -1;
-    } else {
-      return 1;
-    }
-  });
+  let sortData = data
+    .concat() //copy array before sorting, because .sort() is muttable method
+    .sort(function(a, b){
+      if (a.type === 'EU') {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
 
   return (
     <>
@@ -52,7 +60,7 @@ export let WSDeclaration = props => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, idx) => {
+          {sortData.map((row, idx) => {
             let { netSale, basis_for_VAT, name, type, rate, tax } = row || {};
             netSale = financial(netSale / 100);
             basis_for_VAT = financial(basis_for_VAT / 100);

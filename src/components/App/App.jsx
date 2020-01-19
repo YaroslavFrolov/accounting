@@ -5,6 +5,7 @@ import { WSDeclaration } from 'components/Tables/WSDeclaration.jsx';
 import { calculateDeclaration } from 'calculating/calculateDeclaration.js';
 import 'styles/index.scss';
 
+
 export class App extends React.Component {
   constructor(props) {
     super(props);
@@ -79,14 +80,7 @@ export class App extends React.Component {
   };
 
   render () {
-    let wsList = []
-
-    for (let [WSname, data] of Object.entries(this.state.declarationData)) {
-      wsList.push({
-        WSname,
-        data
-      });
-    };
+    let WSnames = Object.keys(this.state.declarationData);
 
     return (
       <div>
@@ -168,16 +162,18 @@ export class App extends React.Component {
           <br/>
           <br/>
           <div>
-            {wsList.length > 0 && wsList.map((item, idx)=>{
+            {WSnames.length > 0 && WSnames.map(name=>{
               return (
-                <button onClick={this.setActiveTab(item.WSname)} key={idx}>{item.WSname}</button>
+                <button onClick={this.setActiveTab(name)} key={name}>{name}</button>
               );
             })}
           </div>
+          <h1>{this.state.activeTab}</h1>
           <TabContent activeTab={this.state.activeTab}>
-            {wsList.map((item, idx)=>{
+            {WSnames.map(name=>{
+              let ws = this.state.declarationData[name];
               return (
-                <WSDeclaration WSdata={item.data} name={item.WSname} key={idx} />
+                <WSDeclaration WSdata={ws} name={name} key={name} />
               );
             })}
           </TabContent>

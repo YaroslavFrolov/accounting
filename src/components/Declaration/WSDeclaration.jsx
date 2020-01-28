@@ -28,19 +28,19 @@ export let WSDeclaration = props => {
         <thead>
           <tr>
             <td>SALES</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
           </tr>
           <tr>
             <td>Ref</td>
@@ -66,22 +66,27 @@ export let WSDeclaration = props => {
             basis_for_VAT = financial(basis_for_VAT / 100);
             tax = financial(tax / 100);
 
+            const style = {
+              backgroundColor: netSale < 0 ? 'red' : '',
+              color: netSale < 0 ? 'white' : '',
+            };
+
             return (
               <tr key={idx}>
                 <td>{idx+1}</td>
                 <td>-</td>
                 <td>-</td>
                 <td>Individuals</td>
-                <td>{netSale}</td>
-                <td>{basis_for_VAT}</td>
+                <td style={style}>{netSale}</td>{/* С НДС */ }
+                <td>{basis_for_VAT}</td>{/* без НДС */ }
                 <td>1.0000</td>
                 <td>{netSale}</td>
                 <td>Service</td>
                 <td>{name}</td>
                 <td>{type}</td>
                 <td>n/a</td>
-                <td>{rate}</td>
-                <td>{tax}</td>
+                <td>{rate}</td>{/* СТАВКА НДС */ }
+                <td>{tax}</td>{/* НДС к оплате */ }
               </tr>
             );
           })}

@@ -1,0 +1,19 @@
+.title {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.fieldWrapper {
+  margin: 1em 0;
+
+  label {
+    display: inline-block;
+    min-width: 150px;
+  }
+
+  input {
+    display: inline-block;
+    width: 50px;
+    margin: 0 1em;
+  }
+}

@@ -16,7 +16,7 @@ const MONTHS = {
 };
 
 
-export let calculateDeclaration = data => {
+export let calculateDeclaration = (data, countriesRate) => {
   let { DB } = data || {};
 
   if (!Array.isArray(DB)) {
@@ -40,7 +40,7 @@ export let calculateDeclaration = data => {
 
   for (let [WSname, WSrows] of Object.entries(WorkSheetsRaw)) {
     if (WSrows.length > 0) {
-      WorkSheetsResult[WSname] = createWSData(WSrows);
+      WorkSheetsResult[WSname] = createWSData(WSrows, countriesRate);
     }
   }
 
@@ -49,7 +49,7 @@ export let calculateDeclaration = data => {
 };
 
 
-function createWSData(WSrows) {
+function createWSData(WSrows, countriesRate) {
   if(!Array.isArray(WSrows)) {
     console.log('createTableData - no WSrows');
   }
@@ -60,7 +60,7 @@ function createWSData(WSrows) {
     let name = row[7];
     let type = row[8];
     let netSale = financial(row[5] * 100);
-    let rate = 20;
+    let rate = type === 'EU' && (parseFloat(countriesRate[name]) || 0);
 
     if(countries[name]) {
       countries[name] = {
@@ -71,19 +71,19 @@ function createWSData(WSrows) {
       countries[name] = {
         name,
         type,
-        rate,
-        netSale,
-        basis_for_VAT: null,
-        tax: null
+        rate, // ставка НДС
+        netSale, // С НДС
+        basis_for_VAT: null, // БЕЗ НДС
+        tax: null // НДС к оплате
       }
     }
   });
 
-  //@todo диалог ввода rate для каждой страны
 
   Object.values(countries).forEach(country=>{
     country.basis_for_VAT = (country.netSale / (country.rate + 100)) * 100;
-    country.tax = (country.netSale / (100 + country.rate)) * country.rate
+    // country.tax = (country.netSale / (100 + country.rate)) * country.rate
+    country.tax = country.netSale - country.basis_for_VAT;
     //@todo удаление минусов
   });
 

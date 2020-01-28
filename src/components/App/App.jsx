@@ -1,8 +1,11 @@
 import React from 'react';
 import XLSX from 'xlsx';
 import { DownloadButton } from 'components/DownloadButton/DownloadButton.jsx';
-import { WSDeclaration } from 'components/Tables/WSDeclaration.jsx';
+import { WSDeclaration } from 'components/Declaration/WSDeclaration.jsx';
+import { AskRatesPopup } from 'components/Declaration/AskRatesPopup.jsx';
 import { calculateDeclaration } from 'calculating/calculateDeclaration.js';
+import { getAllCountries } from 'calculating/getAllCountries.js';
+
 import 'styles/index.scss';
 
 
@@ -14,8 +17,11 @@ export class App extends React.Component {
     this.state = {
       wb: null,
       name: '',
+      exelDataObj: {},
       declarationData: {},
-      activeTab: null
+      activeTab: null,
+      countriesRate: {},
+      isOpenPopup: false
     };
   }
 
@@ -43,12 +49,12 @@ export class App extends React.Component {
         result[sheetName] = json;
       });
 
-      let declarationData = calculateDeclaration(result);
-      let ws1Name = Object.keys(declarationData)[0];
+      let allCountries = getAllCountries(result);
 
       this.setState({
-        declarationData,
-        activeTab: ws1Name
+        exelDataObj: result,
+        isOpenPopup: true,
+        countriesRate: allCountries,
       });
     };
 
@@ -59,6 +65,21 @@ export class App extends React.Component {
     }
 
     return false;
+  };
+
+  setNewRates = countriesRate => {
+    this.setState({
+      isOpenPopup: false,
+      countriesRate
+    });
+
+    let declarationData = calculateDeclaration(this.state.exelDataObj, countriesRate);
+    let ws1Name = Object.keys(declarationData)[0];
+
+    this.setState({
+      declarationData,
+      activeTab: ws1Name
+    });
   };
 
   componentDidMount = () => {
@@ -178,6 +199,11 @@ export class App extends React.Component {
             })}
           </TabContent>
         </div>
+        <AskRatesPopup
+          isOpen={this.state.isOpenPopup}
+          setNewRates={this.setNewRates}
+          countriesRate={this.state.countriesRate}
+        />
       </div>
     );
   }

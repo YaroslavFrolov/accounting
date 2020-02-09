@@ -35,7 +35,7 @@ export let AskRatesPopup = props => {
                       name={countryName}
                       component='input'
                       type='text'
-                      initialValue={countriesRate[countryName]}
+                      initialValue={countriesRate[countryName] || 10}
                     />
                     <span>%</span>
                   </div>

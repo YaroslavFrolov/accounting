@@ -77,16 +77,16 @@ export let WSDeclaration = props => {
                 <td>-</td>
                 <td>-</td>
                 <td>Individuals</td>
-                <td style={style}>{netSale}</td>{/* С НДС */ }
-                <td>{basis_for_VAT}</td>{/* без НДС */ }
+                <td style={style}>{coma(netSale)}</td>{/* С НДС */ }
+                <td>{coma(basis_for_VAT)}</td>{/* без НДС */ }
                 <td>1.0000</td>
-                <td>{netSale}</td>
+                <td>{coma(netSale)}</td>
                 <td>Service</td>
                 <td>{name}</td>
                 <td>{type}</td>
                 <td>n/a</td>
-                <td>{rate}</td>{/* СТАВКА НДС */ }
-                <td>{tax}</td>{/* НДС к оплате */ }
+                <td>{coma(rate)}</td>{/* СТАВКА НДС */ }
+                <td>{coma(tax)}</td>{/* НДС к оплате */ }
               </tr>
             );
           })}
@@ -113,3 +113,7 @@ export let WSDeclaration = props => {
     </>
   );
 };
+
+function coma(str) {
+  return String(str).replace(/\./, ',');
+}

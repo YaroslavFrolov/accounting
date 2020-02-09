@@ -17,3 +17,23 @@
     margin: 0 1em;
   }
 }
+
+
+.focus {
+  border-color: var(--color-focus);
+  
+  .controls {
+    background-color: var(--light-grey);
+  }
+
+  .control {
+    color: var(--pure-black);
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.active {
+  color: var(--color-primary);
+}

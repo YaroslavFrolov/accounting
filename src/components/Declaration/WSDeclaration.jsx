@@ -66,6 +66,15 @@ export let WSDeclaration = props => {
             basis_for_VAT = financial(basis_for_VAT / 100);
             tax = financial(tax / 100);
 
+            // let str = String(netSale / 100);
+            // let arr = str.split('.');
+            // let afterComma = arr[1];
+            // if (afterComma && afterComma.length > 2) {
+            //   afterComma = afterComma.slice(0, 2);
+            //   netSale = `${arr[0]}.${afterComma}`;
+            // }
+
+
             const style = {
               backgroundColor: netSale < 0 ? 'red' : '',
               color: netSale < 0 ? 'white' : '',

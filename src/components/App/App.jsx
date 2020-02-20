@@ -3,8 +3,8 @@ import XLSX from 'xlsx';
 import { DownloadButton } from 'components/DownloadButton/DownloadButton.jsx';
 import { WSDeclaration } from 'components/Declaration/WSDeclaration.jsx';
 import { AskRatesPopup } from 'components/Declaration/AskRatesPopup.jsx';
-import { calculateDeclaration } from 'calculating/calculateDeclaration.js';
-import { getAllCountries } from 'calculating/getAllCountries.js';
+import { calculateDeclaration } from 'calculating/declaration/calculateDeclaration.js';
+import { getAllCountries } from 'calculating/declaration/getAllCountries.js';
 
 import 'styles/index.scss';
 

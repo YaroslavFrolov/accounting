@@ -20,21 +20,22 @@ export class App extends React.Component {
       exelDataObj: {},
       declarationData: {},
       activeTab: null,
-      countriesRate: {
-        Austria: 20,
-        Denmark: 25,
-        Belgium: 6,
-        Bulgaria: 20,
-        Germany: 19,
-        Finland: 10,
-        France: 2.1,
-        Italy: 4,
-        Netherlands: 21,
-        Portugal: 6,
-        Sweden: 6,
-        Spain: 21,
-        'United Kingdom': 20
-      },
+      // countriesRate: {
+      //   Austria: 20,
+      //   Denmark: 25,
+      //   Belgium: 6,
+      //   Bulgaria: 20,
+      //   Germany: 19,
+      //   Finland: 10,
+      //   France: 2.1,
+      //   Italy: 4,
+      //   Netherlands: 21,
+      //   Portugal: 6,
+      //   Sweden: 6,
+      //   Spain: 21,
+      //   'United Kingdom': 20
+      // },
+      countriesRate: {},
       isOpenPopup: false
     };
   }
@@ -68,7 +69,7 @@ export class App extends React.Component {
       this.setState({
         exelDataObj: result,
         isOpenPopup: true,
-        // countriesRate: allCountries,
+        countriesRate: allCountries,
       });
     };
 

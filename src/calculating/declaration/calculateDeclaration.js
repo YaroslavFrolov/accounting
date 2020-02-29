@@ -1,5 +1,6 @@
 import { fillCountriesObj } from './fillCountriesObj.js';
 import { removeMinusFromEUCountries } from './removeMinusFromEUCountries.js';
+import { removeMinusFromNonEUCountries } from './removeMinusFromNonEUCountries.js';
 
 const MONTHS = {
   1: 'January',
@@ -29,6 +30,12 @@ export let calculateDeclaration = (data, countriesRate) => {
   let WorkSheetsResult = {};
 
 
+  let DB_2020 = DB.filter(row=>{
+    if (row[2] !== 2020) return false;
+
+    return row;
+  });
+
   /**
    * Группируем строки с одинаковыми месяцами и наполняем объект WorkSheetsRaw[имя_месяца] этими строками
    * WorkSheetsRaw = {
@@ -39,7 +46,7 @@ export let calculateDeclaration = (data, countriesRate) => {
    * };
    */
   monthsNumbers.forEach(monthNumber=>{
-    WorkSheetsRaw[MONTHS[monthNumber]] = DB.filter(row=>{
+    WorkSheetsRaw[MONTHS[monthNumber]] = DB_2020.filter(row=>{
       let lastIndex = row.length - 1;
 
       return row[lastIndex] === parseInt(monthNumber, 10);
@@ -87,12 +94,14 @@ function createWSData(WSrows, countriesRate) {
    */
   let countries = fillCountriesObj(WSrows, countriesRate);
 
+  // удаление "минусовых non-eu стран" (с отрицательным netsale)
+  countries = removeMinusFromNonEUCountries(countries);
+
   // удаление "минусовых eu стран" (с отрицательным netsale)
   countries = removeMinusFromEUCountries(countries);
 
 
 
-  //@todo распидарасить non EU страны
   //@todo футер с суммой цифр
   //@todo нижняя табличка с общими данными
   //@todo создание последней вкладки

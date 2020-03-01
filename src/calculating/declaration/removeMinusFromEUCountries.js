@@ -2,8 +2,7 @@ import { financial } from 'calculating/helpers.js';
 import { getTax } from './getTax.js';
 
 export let removeMinusFromEUCountries = countries => {
-  // const MAX_DIFF_TOTAL_TAX = 0.03;
-  const MAX_DIFF_TOTAL_TAX = 0.01;
+  const MAX_DIFF_TOTAL_TAX = 0.03;
 
   let totalNetSaleBefore = 0; // сумма всех netSale до удаления "минусовых EU стран"
   let totalTaxBefore = 0; // сумма всех tax до удаления "минусовых EU стран"

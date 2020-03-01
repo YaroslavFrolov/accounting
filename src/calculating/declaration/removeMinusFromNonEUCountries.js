@@ -83,7 +83,7 @@ function setNegativeNetSaleToEUCountries(countries, totalNegativeNetSale, totalP
   let newNetSale = countryWithMinRate.netSale - diff;
 
   countryWithMinRate.netSale = newNetSale;
-  countryWithMinRate.basis_for_VAT = financial((countryWithMinRate.netSale / (countryWithMinRate.rate + 100)) * 100);
+  countryWithMinRate.basis_for_VAT = (countryWithMinRate.netSale / (countryWithMinRate.rate + 100)) * 100;
   countryWithMinRate.tax = getTax(countryWithMinRate.netSale, countryWithMinRate.rate);
 
   return countries;

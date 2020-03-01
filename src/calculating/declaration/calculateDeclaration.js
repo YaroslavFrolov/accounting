@@ -1,6 +1,7 @@
 import { fillCountriesObj } from './fillCountriesObj.js';
 import { removeMinusFromEUCountries } from './removeMinusFromEUCountries.js';
 import { removeMinusFromNonEUCountries } from './removeMinusFromNonEUCountries.js';
+import { getSums, getSumNetSaleEU, getSumNetSaleNonEU } from './getSums.js';
 
 const MONTHS = {
   1: 'January',
@@ -30,11 +31,12 @@ export let calculateDeclaration = (data, countriesRate) => {
   let WorkSheetsResult = {};
 
 
-  let DB_2020 = DB.filter(row=>{
-    if (row[2] !== 2020) return false;
+  // @todo  установить фильтрацию в диалоге
+  // DB = DB.filter(row=>{
+  //   if (row[2] !== 2020) return false;
 
-    return row;
-  });
+  //   return row;
+  // });
 
   /**
    * Группируем строки с одинаковыми месяцами и наполняем объект WorkSheetsRaw[имя_месяца] этими строками
@@ -46,7 +48,7 @@ export let calculateDeclaration = (data, countriesRate) => {
    * };
    */
   monthsNumbers.forEach(monthNumber=>{
-    WorkSheetsRaw[MONTHS[monthNumber]] = DB_2020.filter(row=>{
+    WorkSheetsRaw[MONTHS[monthNumber]] = DB.filter(row=>{
       let lastIndex = row.length - 1;
 
       return row[lastIndex] === parseInt(monthNumber, 10);
@@ -94,16 +96,38 @@ function createWSData(WSrows, countriesRate) {
    */
   let countries = fillCountriesObj(WSrows, countriesRate);
 
+  // считаем суммы netSale и tax до удаления "минусовых стран"
+  let { totalNetSale: totalNetSaleBefore, totalTax: totalTaxBefore } = getSums(countries);
+
   // удаление "минусовых non-eu стран" (с отрицательным netsale)
   countries = removeMinusFromNonEUCountries(countries);
 
   // удаление "минусовых eu стран" (с отрицательным netsale)
   countries = removeMinusFromEUCountries(countries);
 
+  // считаем суммы netSale и tax после удаления "минусовых стран"
+  let { totalNetSale: totalNetSaleAfter, totalTax: totalTaxAfter } = getSums(countries);
+
+  // считаем суммы netSale после удаления "минусовых стран" отдельно для EU и nonEU стран
+  let totalNetSale_EU = getSumNetSaleEU(countries);
+  let totalNetSale_nonEU = getSumNetSaleNonEU(countries);
 
 
-  //@todo футер с суммой цифр
-  //@todo нижняя табличка с общими данными
+
+  let result = {
+    countries: Object.values(countries),
+    totalNetSaleBefore,
+    totalTaxBefore,
+    totalNetSaleAfter,
+    totalTaxAfter,
+    totalNetSale_EU,
+    totalNetSale_nonEU
+  };
+
   //@todo создание последней вкладки
-  return Object.values(countries);
+  //@todo запрос рейтов по месяцам
+  //@todo найти апи с актуальными рейтами для стран
+  //@todo интерфейс и причесание кода
+  //@todo скачивание итоговой таблички
+  return result;
 };

@@ -1,18 +1,29 @@
 import React from 'react';
-import { financial } from 'calculating/helpers.js';
+import { financial, coma, localeNumber } from 'calculating/helpers.js';
 
 
 export let WSDeclaration = props => {
-  const { WSdata, name } = props;
+  let { WSdata, month } = props;
+  let { countries, totalNetSaleBefore, totalTaxBefore, totalNetSaleAfter, totalTaxAfter, totalNetSale_EU, totalNetSale_nonEU } = WSdata;
 
-  if(!Array.isArray(WSdata)) {
-    console.log(`WSDeclaration[${name}] - no data`);
+
+  if(!Array.isArray(countries)) {
+    console.log(`WSDeclaration[${month}] - no data`);
     return null;
   }
 
-  const data = WSdata || [];
 
-  let sortData = data
+  let diffNetSale = financial(financial(totalNetSaleBefore/100) - financial(totalNetSaleAfter/100));
+  let diffTax = financial(financial(totalTaxAfter/100) - financial(totalTaxBefore/100));
+
+  totalNetSaleBefore = localeNumber(totalNetSaleBefore / 100);
+  totalTaxBefore = localeNumber(totalTaxBefore / 100);
+  totalNetSaleAfter = localeNumber(totalNetSaleAfter / 100);
+  totalTaxAfter = localeNumber(totalTaxAfter / 100);
+  totalNetSale_EU = localeNumber(totalNetSale_EU / 100);
+  totalNetSale_nonEU = localeNumber(totalNetSale_nonEU / 100);
+
+  let sortData = countries
     .concat() //copy array before sorting, because .sort() is muttable method
     .sort(function(a, b){
       if (a.type === 'EU') {
@@ -75,10 +86,15 @@ export let WSDeclaration = props => {
             // }
 
 
-            const style = {
+            const netSaleStyle = {
               backgroundColor: netSale < 0 ? 'red' : '',
               color: netSale < 0 ? 'white' : '',
             };
+
+            /**
+             * comma() - нужны строки с запятыми без пробелов, чтобы при копировании в гугл-таблицы - таблица
+             * корректно воспринимала данные и могла с ними обращаться как с числами (суммировать при выделении и т.д.).
+             */
 
             return (
               <tr key={idx}>
@@ -86,7 +102,7 @@ export let WSDeclaration = props => {
                 <td>-</td>
                 <td>-</td>
                 <td>Individuals</td>
-                <td style={style}>{coma(netSale)}</td>{/* С НДС */ }
+                <td style={netSaleStyle}>{coma(netSale)}</td>{/* С НДС */ }
                 <td>{coma(basis_for_VAT)}</td>{/* без НДС */ }
                 <td>1.0000</td>
                 <td>{coma(netSale)}</td>
@@ -94,13 +110,13 @@ export let WSDeclaration = props => {
                 <td>{name}</td>
                 <td>{type}</td>
                 <td>n/a</td>
-                <td>{coma(rate)}</td>{/* СТАВКА НДС */ }
-                <td>{coma(tax)}</td>{/* НДС к оплате */ }
+                <td>{coma(rate) || '-'}</td>{/* СТАВКА НДС */ }
+                <td>{coma(tax) || '-'}</td>{/* НДС к оплате */ }
               </tr>
             );
           })}
         </tbody>
-        {/* <tfoot>
+        <tfoot>
           <tr>
             <td></td>
             <td></td>
@@ -109,20 +125,194 @@ export let WSDeclaration = props => {
             <td></td>
             <td></td>
             <td></td>
-            <td>820873.32</td>
+            <td style={{fontWeight: 'bold'}}>result sum {totalNetSaleAfter}</td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td></td>
-            <td>31395.88</td>
+            <td style={{fontWeight: 'bold'}}>result sum {totalTaxAfter}</td>
           </tr>
-        </tfoot> */}
+          <tr style={{height: '1em'}}>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+          </tr>
+          <tr style={{height: '1em'}}></tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style={{fontWeight: 'bold'}}>initial sum {totalNetSaleBefore}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style={{fontWeight: 'bold'}}>initial sum {totalTaxBefore}</td>
+          </tr>
+          <tr style={{height: '1em'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style={{textAlign: 'right'}}>diff {diffNetSale}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style={{textAlign: 'right'}}>diff {diffTax}</td>
+          </tr>
+          <tr style={{height: '1em'}}>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+            <td rowSpan='2'>{null}</td>
+          </tr>
+          <tr style={{height: '1em'}}></tr>
+          <tr>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>VAT</td>
+            <td>TOTAL</td>
+            <td>{null}</td>
+            <td>{null}</td>
+          </tr>
+          <tr>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>Total EU SALES (Services)</td>
+            <td style={{fontWeight: 'bold'}}>€ {totalNetSale_EU}</td>
+            <td style={{fontWeight: 'bold'}}>€ {totalTaxAfter}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+          </tr>
+          <tr>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>Total NON EU SALES (Services)</td>
+            <td style={{fontWeight: 'bold'}}>€ {totalNetSale_nonEU}</td>
+            <td>-</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+          </tr>
+          <tr>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>Total Local Sales</td>
+            <td style={{fontWeight: 'bold'}}>€ 0.00</td>
+            <td>-</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+          </tr>
+          <tr>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>Total EU SALES (Goods)</td>
+            <td style={{fontWeight: 'bold'}}>€ 0.00</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+          </tr>
+          <tr>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>Total NON EU SALES (Goods)</td>
+            <td style={{fontWeight: 'bold'}}>€ 0.00</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+          </tr>
+          <tr>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>Total</td>
+            <td style={{fontWeight: 'bold'}}>€ {totalNetSaleAfter}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+            <td>{null}</td>
+          </tr>
+        </tfoot>
       </table>
     </>
   );
 };
-
-function coma(str) {
-  return String(str).replace(/\./, ',');
-}

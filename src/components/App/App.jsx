@@ -20,22 +20,32 @@ export class App extends React.Component {
       exelDataObj: {},
       declarationData: {},
       activeTab: null,
+      countriesRate: {
+        Austria: 20,
+        Denmark: 25,
+        Belgium: 6,
+        Bulgaria: 20,
+        Germany: 7,
+        Finland: 10,
+        France: 2.1,
+        Italy: 4,
+        Netherlands: 21,
+        Portugal: 6,
+        Sweden: 6,
+        Spain: 21,
+        'United Kingdom': 20
+      },
       // countriesRate: {
       //   Austria: 20,
-      //   Denmark: 25,
       //   Belgium: 6,
-      //   Bulgaria: 20,
-      //   Germany: 19,
-      //   Finland: 10,
+      //   Germany: 7,
       //   France: 2.1,
       //   Italy: 4,
-      //   Netherlands: 21,
       //   Portugal: 6,
-      //   Sweden: 6,
       //   Spain: 21,
       //   'United Kingdom': 20
       // },
-      countriesRate: {},
+      // countriesRate: {},
       isOpenPopup: false
     };
   }
@@ -69,7 +79,7 @@ export class App extends React.Component {
       this.setState({
         exelDataObj: result,
         isOpenPopup: true,
-        countriesRate: allCountries,
+        // countriesRate: allCountries,
       });
     };
 
@@ -164,35 +174,68 @@ export class App extends React.Component {
           <br/>
           <br/>
           <br/>
-          <table ref={this.table2}>
-            <caption>my table 2</caption>
-            <thead>
-              <tr>
-                <td>col-1</td>
-                <td>col-2</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>value-1</td>
-                <td>value-2</td>
-              </tr>
-              <tr>
-                <td>value-1</td>
-                <td>value-2</td>
-              </tr>
-              <tr>
-                <td>value-1</td>
-                <td>value-2</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>footer-1</td>
-                <td>footer-2</td>
-              </tr>
-            </tfoot>
-          </table>
+          <div ref={this.table2}>
+            <table>
+              <caption>my table 2</caption>
+              <thead>
+                <tr>
+                  <td>col-1</td>
+                  <td>col-2</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>value-1</td>
+                  <td>value-2</td>
+                </tr>
+                <tr>
+                  <td>value-1</td>
+                  <td>value-2</td>
+                </tr>
+                <tr>
+                  <td>value-1</td>
+                  <td>value-2</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>footer-1</td>
+                  <td>footer-2</td>
+                </tr>
+              </tfoot>
+            </table>
+            <br/>
+            <br/>
+            <br/>
+            <table>
+              <thead>
+                <tr>
+                  <td>col-inner</td>
+                  <td>col-inner</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>value-inner</td>
+                  <td>value-inner</td>
+                </tr>
+                <tr>
+                  <td>value-inner</td>
+                  <td>value-inner</td>
+                </tr>
+                <tr>
+                  <td>value-inner</td>
+                  <td>value-inner</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>footer-inner</td>
+                  <td>footer-inner</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
           <DownloadButton {...this.state} />
           <br/>
           <br/>
@@ -209,7 +252,7 @@ export class App extends React.Component {
             {WSnames.map(name=>{
               let ws = this.state.declarationData[name];
               return (
-                <WSDeclaration WSdata={ws} name={name} key={name} />
+                <WSDeclaration WSdata={ws} month={name} key={name} />
               );
             })}
           </TabContent>
@@ -227,7 +270,7 @@ export class App extends React.Component {
 
 let TabContent = props => {
   return props.children.map(child=>{
-    if( child.props.name !== props.activeTab ) return null;
+    if( child.props.month !== props.activeTab ) return null;
 
     return child;
   })

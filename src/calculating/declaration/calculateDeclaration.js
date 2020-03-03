@@ -67,6 +67,8 @@ export let calculateDeclaration = (data, countriesRate) => {
     }
   }
 
+  WorkSheetsResult['To Be Paid'] = createLastTab(WorkSheetsResult);
+
 
   return WorkSheetsResult;
 };
@@ -131,3 +133,46 @@ function createWSData(WSrows, countriesRate) {
   //@todo скачивание итоговой таблички
   return result;
 };
+
+
+
+function createLastTab(WorkSheetsResult){
+  console.log(WorkSheetsResult);
+
+  let getTotal = field => {
+    return Object.values(WorkSheetsResult).reduce((acc, month) => {
+      return acc + month[field];
+    }, 0);
+  };
+
+  let countries = {};
+
+  Object.values(WorkSheetsResult).forEach(month => {
+
+    month.countries.forEach(country => {
+      if(countries[country.name]) return null;
+
+      countries[country.name] = {
+        name: country.name,
+        type: country.type,
+        rate: false,
+        netSale: 988950.07,
+        basis_for_VAT: 992094.05,
+        tax: 0,
+      };
+    });
+
+  });
+
+  let result = {
+    countries: [], //Object.values(countries),
+    totalNetSaleBefore: getTotal('totalNetSaleBefore'),
+    totalTaxBefore: getTotal('totalTaxBefore'),
+    totalNetSaleAfter: getTotal('totalNetSaleAfter'),
+    totalTaxAfter: getTotal('totalTaxAfter'),
+    totalNetSale_EU: getTotal('totalNetSale_EU'),
+    totalNetSale_nonEU: getTotal('totalNetSale_nonEU'),
+  };
+
+  return result;
+}

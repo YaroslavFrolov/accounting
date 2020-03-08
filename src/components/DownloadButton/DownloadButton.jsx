@@ -4,7 +4,7 @@ import XLSX from 'xlsx';
 
 
 export let DownloadButton = props => {
-  let { wb, name } = props;
+  let { wb, name, children } = props;
 
   let download = () => {
     var wbout = XLSX.write(wb, { bookType:'xlsx', bookSST:false, type:'array' });
@@ -12,6 +12,6 @@ export let DownloadButton = props => {
   };
 
   return (
-    <button onClick={download}>скачать .xlsx</button>
+    <button onClick={download}>{children || 'скачать .xlsx'}</button>
   );
 };

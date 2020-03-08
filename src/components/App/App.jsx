@@ -14,6 +14,7 @@ export class App extends React.Component {
     super(props);
     this.table1 = React.createRef();
     this.table2 = React.createRef();
+    this.wb2 = XLSX.utils.book_new();
     this.state = {
       wb: null,
       name: '',
@@ -123,6 +124,17 @@ export class App extends React.Component {
       wb,
       name: 'test!!!!.xlsx'
     });
+  };
+
+  saveRef = (table, month) => {
+    if(this.wb2.Sheets[month]) {
+      return null;
+    }
+
+    let ws = XLSX.utils.table_to_sheet(table);
+
+    this.wb2.SheetNames.push(month)
+    this.wb2.Sheets[month] = ws;
   };
 
   render () {
@@ -252,10 +264,11 @@ export class App extends React.Component {
             {WSnames.map(name=>{
               let ws = this.state.declarationData[name];
               return (
-                <WSDeclaration WSdata={ws} month={name} key={name} />
+                <WSDeclaration WSdata={ws} month={name} key={name} saveRef={this.saveRef} />
               );
             })}
           </TabContent>
+          {this.state.activeTab && <DownloadButton wb={this.wb2} name='tableeee.xlsx' >скачать табличку .xlsx</DownloadButton>}
         </div>
         <AskRatesPopup
           isOpen={this.state.isOpenPopup}

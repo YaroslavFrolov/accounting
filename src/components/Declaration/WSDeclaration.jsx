@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { financial, coma, localeNumber } from 'calculating/helpers.js';
 
 
 export let WSDeclaration = props => {
-  let { WSdata, month } = props;
+  let { WSdata, month, saveRef } = props;
   let { countries, totalNetSaleBefore, totalTaxBefore, totalNetSaleAfter, totalTaxAfter, totalNetSale_EU, totalNetSale_nonEU } = WSdata;
+  let tableElement = useRef(null);
 
+  useEffect(() => {
+    saveRef(tableElement.current, month);
+  }, [month]);
 
   if(!Array.isArray(countries)) {
     console.log(`WSDeclaration[${month}] - no data`);
     return null;
   }
+
+
 
 
   let diffNetSale = financial(financial(totalNetSaleBefore/100) - financial(totalNetSaleAfter/100));
@@ -35,7 +41,7 @@ export let WSDeclaration = props => {
 
   return (
     <>
-      <table>
+      <table ref={tableElement} id='tablexxx'>
         <thead>
           <tr>
             <td>SALES</td>

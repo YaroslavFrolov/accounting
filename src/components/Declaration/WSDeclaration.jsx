@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { financial, coma, localeNumber } from 'calculating/helpers.js';
+import { financial, localeNumber } from 'calculating/helpers.js';
 
 
 export let WSDeclaration = props => {
@@ -97,27 +97,31 @@ export let WSDeclaration = props => {
               color: netSale < 0 ? 'white' : '',
             };
 
+            const lowNetSaleStyle = {
+              backgroundColor: netSale < 0.01 ? '#dedcf1' : '',
+            };
+
             /**
              * comma() - нужны строки с запятыми без пробелов, чтобы при копировании в гугл-таблицы - таблица
              * корректно воспринимала данные и могла с ними обращаться как с числами (суммировать при выделении и т.д.).
              */
 
             return (
-              <tr key={idx}>
+              <tr key={idx} style={lowNetSaleStyle}>
                 <td>{idx+1}</td>
                 <td>-</td>
                 <td>-</td>
                 <td>Individuals</td>
-                <td style={netSaleStyle}>{coma(netSale)}</td>{/* С НДС */ }
-                <td>{coma(basis_for_VAT)}</td>{/* без НДС */ }
-                <td>1.0000</td>
-                <td>{coma(netSale)}</td>
+                <td style={netSaleStyle}>{netSale}</td>{/* С НДС */ }
+                <td>{basis_for_VAT}</td>{/* без НДС */ }
+                <td>{String('1.0000')}</td>
+                <td>{netSale}</td>
                 <td>Service</td>
                 <td>{name}</td>
                 <td>{type}</td>
                 <td>n/a</td>
-                <td>{coma(rate) || '-'}</td>{/* СТАВКА НДС */ }
-                <td>{coma(tax) || '-'}</td>{/* НДС к оплате */ }
+                <td>{rate || '-'}</td>{/* СТАВКА НДС */ }
+                <td>{tax || '-'}</td>{/* НДС к оплате */ }
               </tr>
             );
           })}

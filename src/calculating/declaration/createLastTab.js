@@ -16,9 +16,9 @@ export let createLastTab = WorkSheetsResult => {
         existCountry.netSale = existCountry.netSale + country.netSale;
         existCountry.basis_for_VAT = existCountry.basis_for_VAT + country.basis_for_VAT;
         existCountry.tax = country.tax ? (existCountry.tax + country.tax) : existCountry.tax;
-        // @todo - existCountry.rate - брать самый актуальный, или с последнего месяца?
+        // @todo - existCountry.rate - брать с последнего месяца!
       } else {
-        countries[country.name] = country;
+        countries[country.name] = {...country};
       }
     });
 

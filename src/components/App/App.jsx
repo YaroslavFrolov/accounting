@@ -20,13 +20,14 @@ export class App extends React.Component {
       name: '',
       exelDataObj: {},
       declarationData: {},
+      renderedTabs: {},
       activeTab: null,
       countriesRate: {
         Austria: 20,
         Denmark: 25,
         Belgium: 6,
         Bulgaria: 20,
-        Germany: 7,
+        Germany: 19,
         Finland: 10,
         France: 2.1,
         Italy: 4,
@@ -135,10 +136,21 @@ export class App extends React.Component {
 
     this.wb2.SheetNames.push(month)
     this.wb2.Sheets[month] = ws;
+
+    this.setState(prevState => ({
+      ...prevState,
+      renderedTabs: {
+        ...prevState.renderedTabs,
+        [month]: true,
+      }
+    }));
   };
 
   render () {
     let WSnames = Object.keys(this.state.declarationData);
+    let isShowDownloadBtn = (WSnames.length > 0) && WSnames.every(month => {
+      return this.state.renderedTabs[month];
+    });
 
     return (
       <div>
@@ -268,7 +280,7 @@ export class App extends React.Component {
               );
             })}
           </TabContent>
-          {this.state.activeTab && <DownloadButton wb={this.wb2} name='tableeee.xlsx' >скачать табличку .xlsx</DownloadButton>}
+          {isShowDownloadBtn && <DownloadButton wb={this.wb2} name='tableeee.xlsx' >скачать табличку .xlsx</DownloadButton>}
         </div>
         <AskRatesPopup
           isOpen={this.state.isOpenPopup}

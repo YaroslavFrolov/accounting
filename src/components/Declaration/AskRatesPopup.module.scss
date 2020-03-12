@@ -6,11 +6,6 @@
 .fieldWrapper {
   margin: 1em 0;
 
-  label {
-    display: inline-block;
-    min-width: 150px;
-  }
-
   input {
     display: inline-block;
     width: 50px;
@@ -19,21 +14,13 @@
 }
 
 
-.focus {
-  border-color: var(--color-focus);
-  
-  .controls {
-    background-color: var(--light-grey);
+.table {
+  thead td {
+    padding-bottom: 1em;
+    font-weight: 700;
   }
 
-  .control {
-    color: var(--pure-black);
-    &:hover {
-      color: var(--color-primary);
-    }
+  td {
+    border: 1px solid rgba(#333, .2);
   }
-}
-
-.active {
-  color: var(--color-primary);
 }

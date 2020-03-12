@@ -22,21 +22,21 @@ export class App extends React.Component {
       declarationData: {},
       renderedTabs: {},
       activeTab: null,
-      countriesRate: {
-        Austria: 20,
-        Denmark: 25,
-        Belgium: 6,
-        Bulgaria: 20,
-        Germany: 19,
-        Finland: 10,
-        France: 2.1,
-        Italy: 4,
-        Netherlands: 21,
-        Portugal: 6,
-        Sweden: 6,
-        Spain: 21,
-        'United Kingdom': 20
-      },
+      // countriesRate: {
+      //   Austria: 20,
+      //   Denmark: 25,
+      //   Belgium: 6,
+      //   Bulgaria: 20,
+      //   Germany: 19,
+      //   Finland: 10,
+      //   France: 2.1,
+      //   Italy: 4,
+      //   Netherlands: 21,
+      //   Portugal: 6,
+      //   Sweden: 6,
+      //   Spain: 21,
+      //   'United Kingdom': 20
+      // },
       // countriesRate: {
       //   Austria: 20,
       //   Belgium: 6,
@@ -47,7 +47,7 @@ export class App extends React.Component {
       //   Spain: 21,
       //   'United Kingdom': 20
       // },
-      // countriesRate: {},
+      countriesRate: {},
       isOpenPopup: false
     };
   }
@@ -81,7 +81,7 @@ export class App extends React.Component {
       this.setState({
         exelDataObj: result,
         isOpenPopup: true,
-        // countriesRate: allCountries,
+        countriesRate: allCountries,
       });
     };
 
@@ -95,17 +95,14 @@ export class App extends React.Component {
   };
 
   setNewRates = countriesRate => {
-    this.setState({
-      isOpenPopup: false,
-      countriesRate
-    });
-
     let declarationData = calculateDeclaration(this.state.exelDataObj, countriesRate);
     let ws1Name = Object.keys(declarationData)[0];
 
     this.setState({
+      isOpenPopup: false,
+      activeTab: ws1Name,
+      countriesRate,
       declarationData,
-      activeTab: ws1Name
     });
   };
 

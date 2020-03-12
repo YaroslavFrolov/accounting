@@ -9,7 +9,7 @@ export let WSDeclaration = props => {
 
   useEffect(() => {
     saveRef(tableElement.current, month);
-  }, [month]);
+  }, [month, saveRef]);
 
   if(!Array.isArray(countries)) {
     console.log(`WSDeclaration[${month}] - no data`);
@@ -100,11 +100,6 @@ export let WSDeclaration = props => {
             const lowNetSaleStyle = {
               backgroundColor: netSale < 0.01 ? '#dedcf1' : '',
             };
-
-            /**
-             * comma() - нужны строки с запятыми без пробелов, чтобы при копировании в гугл-таблицы - таблица
-             * корректно воспринимала данные и могла с ними обращаться как с числами (суммировать при выделении и т.д.).
-             */
 
             return (
               <tr key={idx} style={lowNetSaleStyle}>

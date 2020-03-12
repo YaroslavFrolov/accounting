@@ -7,18 +7,23 @@ import styles from './AskRatesPopup.module.scss';
 export let AskRatesPopup = props => {
   let { isOpen, setNewRates, countriesRate } = props;
 
+  if (!isOpen) return null;
+
+  let countries = Object.keys(countriesRate);
+  let months = Object.keys(countriesRate[countries[0]]);
+
   let onSubmit = values => {
     setNewRates(values);
   };
 
   return (
     <Popup
-      open={isOpen}
+      open={true}
       closeOnDocumentClick={false}
       closeOnEscape={false}
     >
       <>
-        <h1 className={styles.title}>Укажите Rate-ы</h1>
+        <h1 className={styles.title}>Укажите Rate-ы, %</h1>
         <br/>
         <p>Десятые указывать через точку(!), например так "19.5" <br/> Знак процентов ставить не нужно.</p>
         <br/>
@@ -28,23 +33,25 @@ export let AskRatesPopup = props => {
           render={({ handleSubmit }) => {
             return (
               <form onSubmit={handleSubmit}>
-                {Object.keys(countriesRate).map(countryName=>(
-                  <div key={countryName} className={styles.fieldWrapper}>
-                    <label>{countryName}</label>
-                    <Field
-                      name={countryName}
-                      component='input'
-                      type='text'
-                      initialValue={countriesRate[countryName] || 10}
-                    />
-                    <span>%</span>
-                  </div>
-                ))}
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <td>Страна \ месяц</td>
+                      {months.map(month => <td key={month}>{month}</td>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {countries.map(countryName=>(
+                      <tr key={countryName} className={styles.fieldWrapper}>
+                        <td>{countryName}</td>
+                        <MonthFieldsPerCountry allCountries={countriesRate} countryName={countryName} />
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
                 <br/>
                 <br/>
-                <button type="submit">
-                  Далее
-                </button>
+                <button type='submit'>Далее</button>
               </form>
             );
           }}
@@ -52,4 +59,29 @@ export let AskRatesPopup = props => {
       </>
     </Popup>
   );
+};
+
+
+
+let MonthFieldsPerCountry = props => {
+  let { allCountries, countryName } = props;
+  let monthRates = allCountries[countryName];
+  let fields = [];
+
+  for (let month in monthRates) {
+    let rate = monthRates[month];
+
+    fields.push(
+      <td key={month}>
+        <Field
+          name={`${countryName}.${month}`}
+          component='input'
+          type='text'
+          initialValue={rate}
+        />
+      </td>
+    );
+  }
+
+  return fields;
 };

@@ -3,21 +3,7 @@ import { removeMinusFromEUCountries } from './removeMinusFromEUCountries.js';
 import { removeMinusFromNonEUCountries } from './removeMinusFromNonEUCountries.js';
 import { getSums, getSumNetSaleEU, getSumNetSaleNonEU } from './getSums.js';
 import { createLastTab } from './createLastTab.js';
-
-const MONTHS = {
-  1: 'January',
-  2: 'February',
-  3: 'March',
-  4: 'April',
-  5: 'May',
-  6: 'June',
-  7: 'July',
-  8: 'August',
-  9: 'September',
-  10: 'October',
-  11: 'November',
-  12: 'December'
-};
+import { MONTHS } from './constants.js';
 
 
 export let calculateDeclaration = (data, countriesRate) => {
@@ -63,8 +49,11 @@ export let calculateDeclaration = (data, countriesRate) => {
    * Каждый месяц - это отдельная нижняя вкладка в будущей табличке.
    */
   for (let [WSname, WSrows] of Object.entries(WorkSheetsRaw)) {
+    let month = WSname;
+
     if (WSrows.length > 0) {
-      WorkSheetsResult[WSname] = createWSData(WSrows, countriesRate);
+      let countriesRatePerMonth = getCountriesRatePerMonth(month, countriesRate);
+      WorkSheetsResult[month] = createMonthData(WSrows, countriesRatePerMonth);
     }
   }
 
@@ -78,6 +67,20 @@ export let calculateDeclaration = (data, countriesRate) => {
 };
 
 
+/**
+ * Возвращается объект:
+ * { страна: rate для этого месяца }
+ */
+function getCountriesRatePerMonth (month, countriesRate) {
+  let countriesRatePerMonth = {};
+
+  for (let countryName in countriesRate) {
+    let rate = countriesRate[countryName][month];
+    countriesRatePerMonth[countryName] = rate;
+  }
+
+  return countriesRatePerMonth;
+}
 
 
 
@@ -86,7 +89,7 @@ export let calculateDeclaration = (data, countriesRate) => {
  * @param {object} countriesRate - объект {страна : её rate}
  *
  */
-function createWSData(WSrows, countriesRate) {
+function createMonthData(WSrows, countriesRate) {
   if(!Array.isArray(WSrows)) {
     console.log('createTableData - no WSrows');
   }
@@ -134,7 +137,6 @@ function createWSData(WSrows, countriesRate) {
   };
 
 
-  //@todo запрос рейтов по месяцам
   //@todo найти апи с актуальными рейтами для стран
   //@todo причесание кода
   //@todo интерфейс

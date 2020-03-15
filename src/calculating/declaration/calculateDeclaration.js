@@ -1,9 +1,9 @@
-import { fillCountriesObj } from './fillCountriesObj.js';
-import { removeMinusFromEUCountries } from './removeMinusFromEUCountries.js';
-import { removeMinusFromNonEUCountries } from './removeMinusFromNonEUCountries.js';
-import { getSums, getSumNetSaleEU, getSumNetSaleNonEU } from './getSums.js';
-import { createLastTab } from './createLastTab.js';
-import { MONTHS } from './constants.js';
+import { fillCountriesObj } from './fillCountriesObj';
+import { removeMinusFromEUCountries } from './removeMinusFromEUCountries';
+import { removeMinusFromNonEUCountries } from './removeMinusFromNonEUCountries';
+import { getSums, getSumNetSaleEU, getSumNetSaleNonEU } from './getSums';
+import { createLastTab } from './createLastTab';
+import { MONTHS } from './constants';
 
 
 export let calculateDeclaration = (data, countriesRate) => {
@@ -18,12 +18,6 @@ export let calculateDeclaration = (data, countriesRate) => {
   let WorkSheetsResult = {};
 
 
-  // @todo  установить фильтрацию в диалоге
-  // DB = DB.filter(row=>{
-  //   if (row[2] !== 2020) return false;
-
-  //   return row;
-  // });
 
   /**
    * Группируем строки с одинаковыми месяцами и наполняем объект WorkSheetsRaw[имя_месяца] этими строками
@@ -137,9 +131,8 @@ function createMonthData(WSrows, countriesRate) {
   };
 
 
-  //@todo найти апи с актуальными рейтами для стран
-  //@todo причесание кода
   //@todo интерфейс
   //@todo стилизация скачиваемой таблички
+  //@todo выложить в паблик для Юльки
   return result;
 };

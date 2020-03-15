@@ -6,8 +6,10 @@ export let createLastTab = WorkSheetsResult => {
    * Допустим есть три вкладки - октябрь, ноябрь, декабрь.
    * Если, например, в октябре не было Австрии, а в ноябре и декабре была - то в итоговую
    * вкладку добавляем сумму данных этой страны взятых из ноября и декабря.
+   *
+   * Rate не суммируем, а берём с последнего месяца, где есть текущая страна.
    */
-  Object.values(WorkSheetsResult).forEach(month => {
+  Object.values(WorkSheetsResult).forEach((month, idx, arr) => {
 
     month.countries.forEach(country => {
       let existCountry = countries[country.name];
@@ -16,9 +18,13 @@ export let createLastTab = WorkSheetsResult => {
         existCountry.netSale = existCountry.netSale + country.netSale;
         existCountry.basis_for_VAT = existCountry.basis_for_VAT + country.basis_for_VAT;
         existCountry.tax = country.tax ? (existCountry.tax + country.tax) : existCountry.tax;
-        // @todo - existCountry.rate - брать с последнего месяца!
       } else {
         countries[country.name] = {...country};
+      }
+
+
+      if (idx === (arr.length - 1)) {
+        countries[country.name].rate = country.rate;
       }
     });
 

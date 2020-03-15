@@ -1,5 +1,5 @@
-import { financial } from 'calculating/helpers.js';
-import { getTax } from './getTax.js';
+import { financial } from 'calculating/helpers';
+import { getTax } from './getTax';
 
 
 export let removeMinusFromNonEUCountries = countries => {

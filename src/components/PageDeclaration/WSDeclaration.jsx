@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { financial, localeNumber } from 'calculating/helpers.js';
+import { financial, localeNumber } from 'calculating/helpers';
 
 
 export let WSDeclaration = props => {

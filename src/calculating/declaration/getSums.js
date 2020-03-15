@@ -1,4 +1,4 @@
-import { financial } from 'calculating/helpers.js';
+import { financial } from 'calculating/helpers';
 
 
 export let getSums = countries => {

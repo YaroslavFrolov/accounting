@@ -1,4 +1,4 @@
-import { MONTHS } from './constants.js';
+import { MONTHS, RATES } from './constants';
 
 export let getAllCountries = data => {
   let { DB } = data || {};
@@ -8,15 +8,8 @@ export let getAllCountries = data => {
   }
 
 
-  /**
-   * Создаём обект:
-   * {
-   *   месяц-1: 'rate по умолчанию',
-   *   месяц-2: 'rate по умолчанию',
-   *   месяц-3: 'rate по умолчанию',
-   * }
-   */
-  let monthsRates = {};
+
+  let allMonths = [];
 
   DB.forEach(row=>{
     let lastIndex = row.length - 1;
@@ -27,10 +20,12 @@ export let getAllCountries = data => {
       return null;
     }
 
-    if (monthsRates[MONTHS[monthNumber]]) return null;
+    if (allMonths.includes([MONTHS[monthNumber]])) return null;
 
-    monthsRates[MONTHS[monthNumber]] = 17; // просто значение по умолчанию
+    allMonths.push(MONTHS[monthNumber]);
   });
+
+
 
 
 
@@ -56,9 +51,29 @@ export let getAllCountries = data => {
     if(allCountries[country]) {
       return false;
     } else {
-      allCountries[country] = monthsRates;
+      allCountries[country] = getRates(country, allMonths);
     }
   });
 
   return allCountries;
 };
+
+
+
+/**
+ * Создаём объект:
+ * {
+ *   месяц-1: 'rate по умолчанию',
+ *   месяц-2: 'rate по умолчанию',
+ *   месяц-3: 'rate по умолчанию',
+ * }
+ */
+function getRates(country, allMonths) {
+  let monthsRates = {};
+
+  allMonths.forEach(month => {
+    monthsRates[month] = RATES[country];
+  });
+
+  return monthsRates;
+}

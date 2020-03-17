@@ -19,7 +19,7 @@ export let Layout = () => {
       <header className={styles.header}>
         <ul className={styles.nav}>
           <li><button onClick={showTab('declaration')} className={activeTab === 'declaration' && styles.active}>Расчитать декларацию</button></li>
-          <li><button onClick={showTab('example')} className={activeTab === 'example' && styles.active}>Просто пример</button></li>
+          <li><button onClick={showTab('example')} className={activeTab === 'example' && styles.active}>Просто пример..</button></li>
           <li><button onClick={showTab('anotherTab')} className={activeTab === 'anotherTab' && styles.active}>Другая закладка</button></li>
         </ul>
       </header>

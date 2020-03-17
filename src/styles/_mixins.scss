@@ -1,0 +1,48 @@
+@import 'styles/_vars.scss';
+
+@mixin resetButton(){
+  font-size: 100%;
+  font-family: inherit;
+  border: 0;
+  padding: 0;
+  appearance: none;
+  background-color: transparent;
+}
+
+@mixin CTAbutton(){
+  @include resetButton();
+  width: 205px;
+  height: 38px;
+  border-radius: 4px;
+  background-image: linear-gradient(270deg, #0054cc 0%, #0164d6 20%, #0374e0 40%, #0484eb 60%, #0694f5 80%, #07a4ff 100%);
+  border: none;
+
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 0 1em;
+  line-height: 38px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+
+
+  &:hover,
+  &:focus{
+    background-image: none;
+    background-color: $color_2;
+  }
+
+  &:active {
+    transform: translateY(2px);
+  }
+
+
+  &:disabled{
+    background-image: none;
+    background-color: $color_6;
+    color: $color_7;
+    cursor: not-allowed;
+  }
+}

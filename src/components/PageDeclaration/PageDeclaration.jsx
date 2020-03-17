@@ -6,6 +6,9 @@ import { AskRatesPopup } from './AskRatesPopup';
 import { calculateDeclaration } from 'calculating/declaration/calculateDeclaration';
 import { getAllCountries } from 'calculating/declaration/getAllCountries';
 import { TabContent } from 'utils/TabContent';
+import input__xlsx from './input__Argix_4Q_2019.xlsx';
+import output__xlsx from './output__Argix_Declaration_4Q .xlsx';
+import styles from './PageDeclaration.module.scss';
 
 
 export class PageDeclaration extends React.Component {
@@ -103,7 +106,16 @@ export class PageDeclaration extends React.Component {
 
     return (
       <div>
-        <input type="file" onChange={this.handleFile} />
+        <div className={styles.description}>
+          <h1>Расчёт декларации</h1>
+          <p><a href={input__xlsx} download>Такой</a> пример файла необходимо подать на вход. И <a href={output__xlsx} download>такой</a> вы получите после расчётов.</p>
+          <p>Важно, чтобы у входного файла был лист с названием "DB" с такой же структурой столбцов как в примере выше.</p>
+          <p className={styles.hint}>Раньше бухгалтер удалял минусовые страны, и руками подбирал значения netSale таким образом, чтобы суммы netSale до и после удаления минусовых стран были строго равны. А суммы tax до и после удаления минусовых стран, различались максимум на 0,03. Сейчас же - эту рутину делает программа.</p>
+          <div className={styles.chooseWrapper}>
+            <h2>Выберите файл .xlsx для расчёта</h2>
+            <input type="file" onChange={this.handleFile} />
+          </div>
+        </div>
         <div>
           <div>
             {WSnames.length > 0 && WSnames.map(name=>{
@@ -113,6 +125,7 @@ export class PageDeclaration extends React.Component {
             })}
           </div>
           <h1>{this.state.activeTab}</h1>
+          {isShowDownloadBtn && <DownloadButton wb={this.wb} name='table-for-darling.xlsx'>скачать эту табличку</DownloadButton>}
           <TabContent activeTab={this.state.activeTab}>
             {WSnames.map(name=>{
               let ws = this.state.declarationData[name];
@@ -121,7 +134,6 @@ export class PageDeclaration extends React.Component {
               );
             })}
           </TabContent>
-          {isShowDownloadBtn && <DownloadButton wb={this.wb} name='table-for-darling.xlsx' >скачать табличку .xlsx</DownloadButton>}
         </div>
         <AskRatesPopup
           isOpen={this.state.isOpenPopup}

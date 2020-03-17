@@ -51,7 +51,7 @@ export let AskRatesPopup = props => {
                 </table>
                 <br/>
                 <br/>
-                <button type='submit'>Далее</button>
+                <button type='submit' className={styles.button}>Далее</button>
               </form>
             );
           }}

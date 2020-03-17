@@ -41,7 +41,7 @@ export let WSDeclaration = props => {
 
   return (
     <>
-      <table ref={tableElement} id='tablexxx'>
+      <table ref={tableElement}>
         <thead>
           <tr>
             <td>SALES</td>

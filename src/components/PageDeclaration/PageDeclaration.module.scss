@@ -1,0 +1,33 @@
+.description {
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2em;
+  }
+
+  input {
+    margin: 1em 0;
+  }
+
+  p {
+    max-width: 800px;
+    line-height: 1.4;
+    margin-bottom: 1em;
+  }
+
+  h2 {
+    margin-top: 2em;
+    font-size: 22px;
+    font-weight: 700;
+  }
+}
+
+.hint {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.chooseWrapper {
+  text-align: center;
+}

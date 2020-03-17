@@ -1,3 +1,5 @@
+@import 'styles/_mixins.scss';
+
 .title {
   font-size: 36px;
   font-weight: bold;
@@ -23,4 +25,10 @@
   td {
     border: 1px solid rgba(#333, .2);
   }
+}
+
+
+
+.button {
+  @include CTAbutton();
 }

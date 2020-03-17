@@ -1,0 +1,1 @@
+export { PageAnotherTab } from './PageAnotherTab';

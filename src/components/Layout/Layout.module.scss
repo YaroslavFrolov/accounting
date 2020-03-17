@@ -1,3 +1,6 @@
+@import 'styles/_vars.scss';
+@import 'styles/_mixins.scss';
+
 .wrapper {
   max-width: 1920px;
   width: 100%;
@@ -14,18 +17,42 @@
 
 .header {
   grid-area: header;
-  background-color: #333;
-  min-height: 60px;
+  background-color: $color_5;
   color: white;
+  padding: 20px 10px 0 10px;
 }
 
 .main {
   grid-area: main;
+  padding: 10px;
 }
 
 .footer {
   grid-area: footer;
-  background-color: #333;
+  background-color: $color_5;
   min-height: 60px;
   color: white;
+}
+
+.nav {
+
+  li {
+    display: inline-block;
+  }
+
+  button {
+    @include resetButton();
+    color: $color_4;
+    cursor: pointer;
+    padding: .2em .5em;
+    border-radius: 6px 6px 0 0;
+    min-width: 260px;
+  }
+}
+
+button.active {
+  color: $color_5;
+  font-weight: 700;
+  font-size: 20px;
+  background-color: white;
 }

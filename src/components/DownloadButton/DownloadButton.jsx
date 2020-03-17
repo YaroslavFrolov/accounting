@@ -1,6 +1,7 @@
 import React from 'react';
 import { saveAs } from 'file-saver';
 import XLSX from 'xlsx';
+import styles from './DownloadButton.module.scss';
 
 
 export let DownloadButton = props => {
@@ -12,6 +13,6 @@ export let DownloadButton = props => {
   };
 
   return (
-    <button onClick={download}>{children || 'скачать .xlsx'}</button>
+    <button onClick={download} className={styles.button}>{children || 'скачать .xlsx'}</button>
   );
 };

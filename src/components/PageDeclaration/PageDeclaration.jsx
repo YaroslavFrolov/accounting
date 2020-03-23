@@ -111,30 +111,48 @@ export class PageDeclaration extends React.Component {
           <p><a href={input__xlsx} download>Такой</a> пример файла необходимо подать на вход. И <a href={output__xlsx} download>такой</a> вы получите после расчётов.</p>
           <p>Важно, чтобы у входного файла был лист с названием "DB" с такой же структурой столбцов как в примере выше.</p>
           <p className={styles.hint}>Раньше бухгалтер удалял минусовые страны, и руками подбирал значения netSale таким образом, чтобы суммы netSale до и после удаления минусовых стран были строго равны. А суммы tax до и после удаления минусовых стран, различались максимум на 0,03. Сейчас же - эту рутину делает программа.</p>
-          <div className={styles.chooseWrapper}>
-            <h2>Выберите файл .xlsx для расчёта</h2>
-            <input type="file" onChange={this.handleFile} />
-          </div>
+
+          {WSnames.length > 0 || (
+            <div className={styles.chooseWrapper}>
+              <h2>Выберите файл .xlsx для расчёта</h2>
+              <label htmlFor='openFile'>Добавить файл ...</label>
+              <input type="file" onChange={this.handleFile} id='openFile' />
+            </div>
+          )}
         </div>
-        <div>
-          <div>
-            {WSnames.length > 0 && WSnames.map(name=>{
-              return (
-                <button onClick={this.setActiveTab(name)} key={name}>{name}</button>
-              );
-            })}
-          </div>
-          <h1>{this.state.activeTab}</h1>
-          {isShowDownloadBtn && <DownloadButton wb={this.wb} name='table-for-darling.xlsx'>скачать эту табличку</DownloadButton>}
-          <TabContent activeTab={this.state.activeTab}>
-            {WSnames.map(name=>{
-              let ws = this.state.declarationData[name];
-              return (
-                <WSDeclaration WSdata={ws} month={name} key={name} saveRef={this.saveRef} tabName={name} />
-              );
-            })}
-          </TabContent>
+        <div className={styles.tabs}>
+          {WSnames.length > 0 && WSnames.map(name => {
+            let isActive = name === this.state.activeTab ? styles.activeTab : '';
+
+            return (
+              <button
+                onClick={this.setActiveTab(name)}
+                key={name}
+                className={`${styles.tab} ${isActive}`}
+              >
+                {name}
+              </button>
+            );
+          })}
+
+          {isShowDownloadBtn && (
+            <DownloadButton
+              wb={this.wb}
+              name='table-for-darling.xlsx'
+              className={styles.downloadBtn}
+            >
+              скачать эту табличку
+            </DownloadButton>
+          )}
         </div>
+        <TabContent activeTab={this.state.activeTab}>
+          {WSnames.map(name=>{
+            let ws = this.state.declarationData[name];
+            return (
+              <WSDeclaration WSdata={ws} month={name} key={name} saveRef={this.saveRef} tabName={name} />
+            );
+          })}
+        </TabContent>
         <AskRatesPopup
           isOpen={this.state.isOpenPopup}
           setNewRates={this.setNewRates}

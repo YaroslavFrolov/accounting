@@ -5,7 +5,7 @@ import styles from './DownloadButton.module.scss';
 
 
 export let DownloadButton = props => {
-  let { wb, name, children } = props;
+  let { wb, name, children, className } = props;
 
   let download = () => {
     var wbout = XLSX.write(wb, { bookType:'xlsx', bookSST:false, type:'array' });
@@ -13,6 +13,6 @@ export let DownloadButton = props => {
   };
 
   return (
-    <button onClick={download} className={styles.button}>{children || 'скачать .xlsx'}</button>
+    <button onClick={download} className={`${styles.button} ${className}`}>{children || 'скачать .xlsx'}</button>
   );
 };

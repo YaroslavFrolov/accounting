@@ -1,3 +1,6 @@
+@import 'styles/_vars.scss';
+@import 'styles/_mixins.scss';
+
 .description {
   h1 {
     font-size: 32px;
@@ -30,4 +33,56 @@
 
 .chooseWrapper {
   text-align: center;
+
+  input {
+    display: none;
+  }
+
+  label {
+    @include CTAbutton();
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 1em;
+  }
+}
+
+.tabs {
+  background-color: $color_5;
+  color: white;
+  min-height: 60px;
+  padding: 20px 10px 0 10px;
+  margin-top: 2em;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 6px 6px 0 0;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.tab {
+  @include resetButton();
+  cursor: pointer;
+  padding: .2em .5em;
+  border-radius: 6px 6px 0 0;
+  min-width: 140px;
+  color: $color_4;
+}
+
+.activeTab {
+  color: $color_5;
+  font-weight: 700;
+  font-size: 20px;
+  background-color: $color_8;
+}
+
+.downloadBtn {
+  display: inline-block;
+  margin-left: 2em;
+}
+
+.table {
+  width: 100%;
+  background-color: $color_8;
 }

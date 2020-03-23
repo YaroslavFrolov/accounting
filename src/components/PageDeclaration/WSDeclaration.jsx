@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { financial, localeNumber } from 'calculating/helpers';
+import styles from './PageDeclaration.module.scss';
 
 
 export let WSDeclaration = props => {
@@ -41,7 +42,7 @@ export let WSDeclaration = props => {
 
   return (
     <>
-      <table ref={tableElement}>
+      <table ref={tableElement} className={styles.table}>
         <thead>
           <tr>
             <td>SALES</td>

@@ -23,7 +23,7 @@ export let AskRatesPopup = props => {
       closeOnEscape={false}
     >
       <>
-        <h1 className={styles.title}>Укажите Rate-ы, %</h1>
+        <h1 className={styles.title}>Укажите актуальные Rate-ы, %</h1>
         <br/>
         <p>Десятые указывать через точку(!), например так "19.5" <br/> Знак процентов ставить не нужно.</p>
         <br/>

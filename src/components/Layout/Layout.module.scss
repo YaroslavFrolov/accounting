@@ -25,6 +25,7 @@
 .main {
   grid-area: main;
   padding: 10px;
+  background-image: linear-gradient(rgba(white, 1), rgba(white, 0)), url('bg.jpeg');
 }
 
 .footer {
@@ -32,6 +33,37 @@
   background-color: $color_5;
   min-height: 60px;
   color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div:nth-of-type(1) {
+    cursor: pointer;
+
+    &:hover svg {
+      transform: scale(1.4);
+      transition: transform .3s linear, fill .3s linear;
+      fill: $color_3;
+    }
+  }
+
+  svg {
+    position: relative;
+    left: 1em;
+    bottom: -5px;
+    transition: transform .3s linear, fill .3s linear;
+    fill: white;
+
+  }
+
+  a {
+    color: white;
+  }
+
+  p {
+    line-height: 1.4;
+  }
 }
 
 .nav {

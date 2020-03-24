@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef } from 'react';
 import XLSX from 'xlsx';
 import { DownloadButton } from 'components/DownloadButton';
 import { WSDeclaration } from './WSDeclaration';
@@ -14,6 +14,7 @@ import styles from './PageDeclaration.module.scss';
 export class PageDeclaration extends React.Component {
   constructor(props) {
     super(props);
+    this.inputFile = createRef();
     this.wb = XLSX.utils.book_new();
     this.state = {
       exelDataObj: {},
@@ -98,6 +99,15 @@ export class PageDeclaration extends React.Component {
     }));
   };
 
+  handleClosePopup = e => {
+    this.inputFile.current.value = '';
+    this.setState({
+      isOpenPopup: false,
+      exelDataObj: {},
+      countriesRate: {},
+    });
+  };
+
   render () {
     let WSnames = Object.keys(this.state.declarationData);
     let isShowDownloadBtn = (WSnames.length > 0) && WSnames.every(month => {
@@ -116,7 +126,7 @@ export class PageDeclaration extends React.Component {
             <div className={styles.chooseWrapper}>
               <h2>Выберите файл .xlsx для расчёта</h2>
               <label htmlFor='openFile'>Добавить файл ...</label>
-              <input type="file" onChange={this.handleFile} id='openFile' />
+              <input type="file" onChange={this.handleFile} id='openFile' ref={this.inputFile} />
             </div>
           )}
         </div>
@@ -157,6 +167,7 @@ export class PageDeclaration extends React.Component {
           isOpen={this.state.isOpenPopup}
           setNewRates={this.setNewRates}
           countriesRate={this.state.countriesRate}
+          onClose={this.handleClosePopup}
         />
       </div>
     );

@@ -131,7 +131,6 @@ function createMonthData(WSrows, countriesRate) {
   };
 
 
-  //@todo интерфейс
   //@todo стилизация скачиваемой таблички
   //@todo выложить в паблик для Юльки
   return result;

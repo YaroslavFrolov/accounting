@@ -5,7 +5,7 @@ import styles from './AskRatesPopup.module.scss';
 
 
 export let AskRatesPopup = props => {
-  let { isOpen, setNewRates, countriesRate } = props;
+  let { isOpen, setNewRates, countriesRate, ...other } = props;
 
   if (!isOpen) return null;
 
@@ -16,16 +16,27 @@ export let AskRatesPopup = props => {
     setNewRates(values);
   };
 
+  let overrideModalStyles = {
+    width: 'auto',
+    minHeight: '500px',
+    backgroundColor: '#fff',
+    padding: '1em',
+    borderRadius: '6px',
+    border: '1px solid transparent',
+  };
+
   return (
     <Popup
       open={true}
-      closeOnDocumentClick={false}
-      closeOnEscape={false}
+      closeOnDocumentClick={true}
+      closeOnEscape={true}
+      contentStyle={overrideModalStyles}
+      {...other}
     >
       <>
         <h1 className={styles.title}>Укажите актуальные Rate-ы, %</h1>
         <br/>
-        <p>Десятые указывать через точку(!), например так "19.5" <br/> Знак процентов ставить не нужно.</p>
+        <p className={styles.description}>Десятые указывать через точку(!), например так "19.5" <br/> Знак процентов ставить не нужно.</p>
         <br/>
         <br/>
         <Form
@@ -36,7 +47,7 @@ export let AskRatesPopup = props => {
                 <table className={styles.table}>
                   <thead>
                     <tr>
-                      <td>Страна \ месяц</td>
+                      <td><span className={styles.country}>Страна</span> \ месяц =></td>
                       {months.map(month => <td key={month}>{month}</td>)}
                     </tr>
                   </thead>

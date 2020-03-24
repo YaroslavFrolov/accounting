@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/accounting/static/css/main.99eb531e.chunk.css",
+    "main.js": "/accounting/static/js/main.7ef64a40.chunk.js",
+    "main.js.map": "/accounting/static/js/main.7ef64a40.chunk.js.map",
+    "runtime-main.js": "/accounting/static/js/runtime-main.019dcc02.js",
+    "runtime-main.js.map": "/accounting/static/js/runtime-main.019dcc02.js.map",
+    "static/js/2.de8ed63e.chunk.js": "/accounting/static/js/2.de8ed63e.chunk.js",
+    "static/js/2.de8ed63e.chunk.js.map": "/accounting/static/js/2.de8ed63e.chunk.js.map",
+    "index.html": "/accounting/index.html",
+    "precache-manifest.729a8656f6d0ac1f0d76fdd71d5d1240.js": "/accounting/precache-manifest.729a8656f6d0ac1f0d76fdd71d5d1240.js",
+    "service-worker.js": "/accounting/service-worker.js",
+    "static/css/main.99eb531e.chunk.css.map": "/accounting/static/css/main.99eb531e.chunk.css.map",
+    "static/js/2.de8ed63e.chunk.js.LICENSE": "/accounting/static/js/2.de8ed63e.chunk.js.LICENSE",
+    "static/media/Layout.module.scss": "/accounting/static/media/bg.d7f5bd79.jpeg",
+    "static/media/heartIcon.6f27c8d0.svg": "/accounting/static/media/heartIcon.6f27c8d0.svg",
+    "static/media/input__Argix_4Q_2019.xlsx": "/accounting/static/media/input__Argix_4Q_2019.531e4a9a.xlsx",
+    "static/media/output__Argix_Declaration_4Q .xlsx": "/accounting/static/media/output__Argix_Declaration_4Q .80cd347d.xlsx"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.019dcc02.js",
+    "static/js/2.de8ed63e.chunk.js",
+    "static/css/main.99eb531e.chunk.css",
+    "static/js/main.7ef64a40.chunk.js"
+  ]
+}
